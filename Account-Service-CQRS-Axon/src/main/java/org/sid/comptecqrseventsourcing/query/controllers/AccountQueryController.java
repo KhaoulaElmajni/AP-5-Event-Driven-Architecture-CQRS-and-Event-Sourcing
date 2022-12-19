@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 @RequestMapping("/query/accounts")
@@ -20,14 +21,15 @@ import java.util.List;
 @AllArgsConstructor
 public class AccountQueryController {
 
+    //=> QueryGateway is used to send queries to the query bus
     private QueryGateway queryGateway;
 
 
     @GetMapping("/allAccounts")
-    public List<Account> accountList()
+    public CompletableFuture<List<Account>> accountList()
     {
-        List<Account> response = queryGateway.query(new GetAllAccountsQuery(), ResponseTypes.multipleInstancesOf(Account.class)).join();
-       return response;
+        CompletableFuture<List<Account>> query = queryGateway.query(new GetAllAccountsQuery(), ResponseTypes.multipleInstancesOf(Account.class));
+        return query;
     }
     @GetMapping("/{id}")
     public Account getAccount(@PathVariable String id)

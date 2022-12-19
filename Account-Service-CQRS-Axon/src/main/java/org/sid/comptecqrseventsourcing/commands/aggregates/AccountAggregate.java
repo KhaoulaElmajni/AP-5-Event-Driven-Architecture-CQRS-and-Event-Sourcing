@@ -48,8 +48,7 @@ public class AccountAggregate {
 
      // evoulution function for AccountCreatedEvent
     @EventSourcingHandler //=> je vais recevoir un message de type AccountCreatedEvent
-    public void on(AccountCreatedEvent event)
-    {
+    public void on(AccountCreatedEvent event) {
        this.accountId = event.getId();
        this.balance = event.getInitialeBalance();
        this.currency = event.getCurrency();
@@ -83,9 +82,8 @@ public class AccountAggregate {
     }
 
     // evoulution function
-    @EventSourcingHandler
-    public void on(AccountCreditedEvent event)
-    {
+    @EventSourcingHandler //
+    public void on(AccountCreditedEvent event) {
         this.balance += event.getAmount();
     }
 
@@ -93,10 +91,10 @@ public class AccountAggregate {
     @CommandHandler
     public void handle(DebitAccountCommand command) {
         // code metier
-        if(command.getAmount() <0) throw new NegativeAmountException("amount should not be negative");
-        if(balance < command.getAmount() ) throw new BalanceInSufficientException("balance is InSufficient !");
+        if(command.getAmount() <0) throw new NegativeAmountException("Amount should not be negative");
+        if(balance < command.getAmount() ) throw new BalanceInSufficientException("Balance is InSufficient !");
 
-        // okk ==> we emmit the event
+        // si ts se passent bien = ok ==> we emmit the event
         AggregateLifecycle.apply(new AccountDebitedEvent(
             command.getId(),
             command.getAmount(),
@@ -105,8 +103,7 @@ public class AccountAggregate {
     }
     // evoulution function
     @EventSourcingHandler
-    public void on(AccountDebitedEvent event)
-    {
+    public void on(AccountDebitedEvent event) {
         this.balance -= event.getAmount();
     }
 

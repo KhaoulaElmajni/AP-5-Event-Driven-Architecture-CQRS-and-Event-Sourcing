@@ -3,8 +3,9 @@ package org.sid.comptecqrseventsourcing.query.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.axonframework.eventhandling.EventHandler;
+import org.axonframework.eventhandling.EventMessage;
 import org.axonframework.queryhandling.QueryHandler;
-import org.sid.comptecqrseventsourcing.commonapi.enums.OperationType;
+import org.sid.comptecqrseventsourcing.commonapi.enums.TransactionType;
 import org.sid.comptecqrseventsourcing.commonapi.events.AccountActivatedEvent;
 import org.sid.comptecqrseventsourcing.commonapi.events.AccountCreatedEvent;
 import org.sid.comptecqrseventsourcing.commonapi.events.AccountCreditedEvent;
@@ -12,9 +13,9 @@ import org.sid.comptecqrseventsourcing.commonapi.events.AccountDebitedEvent;
 import org.sid.comptecqrseventsourcing.commonapi.queries.GetAccountByIdQuery;
 import org.sid.comptecqrseventsourcing.commonapi.queries.GetAllAccountsQuery;
 import org.sid.comptecqrseventsourcing.query.entities.Account;
-import org.sid.comptecqrseventsourcing.query.entities.Operation;
+import org.sid.comptecqrseventsourcing.query.entities.AccountTransaction;
 import org.sid.comptecqrseventsourcing.query.repositories.AccountRepository;
-import org.sid.comptecqrseventsourcing.query.repositories.OperationRepository;
+import org.sid.comptecqrseventsourcing.query.repositories.TransactionRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,24 +27,27 @@ import java.util.List;
 @Transactional
 public class AccountServiceHandler {
     private AccountRepository accountRepository;
-    private OperationRepository operationRepository;
+    private TransactionRepository transactionRepository;
 
-    public AccountServiceHandler(AccountRepository accountRepository, OperationRepository operationRepository) {
+    public AccountServiceHandler(AccountRepository accountRepository, TransactionRepository operationRepository) {
         this.accountRepository = accountRepository;
-        this.operationRepository = operationRepository;
+        this.transactionRepository = operationRepository;
     }
 
-    @EventHandler
-    public void on(AccountCreatedEvent event)
+    @EventHandler // to handle events
+    public void on(AccountCreatedEvent event, EventMessage<AccountCreditedEvent> eventMessage)
     {
+        log.info("******************************************");
+        log.info("Handling AccountCreatedEvent: " + event.getId());
         log.info("AccountCreatedEvent recieved!");
         Account account = new Account();
         account.setId(event.getId());
         account.setAccountStatus(event.getAccountStatus());
         account.setBalance(event.getInitialeBalance());
         account.setCurrency(event.getCurrency());
+        account.setCreatedAt(eventMessage.getTimestamp());
 
-         accountRepository.save(account);
+        accountRepository.save(account);
     }
 
     @EventHandler
@@ -60,12 +64,12 @@ public class AccountServiceHandler {
     {
         log.info("AccountCreditedEvent recieved!");
         Account account = accountRepository.findById(event.getId()).get();
-        Operation operation = new Operation();
-        operation.setOperationType(OperationType.CREDIT);
+        AccountTransaction operation = new AccountTransaction();
+        operation.setTransactionType(TransactionType.CREDIT);
         operation.setAmount(event.getAmount());
-        operation.setDate(new Date());  // not this date -- should put the date of the operation
+        operation.setTimestamp(new Date());  // not this date -- should put the date of the operation
         operation.setAccount(account);
-        operationRepository.save(operation);
+        transactionRepository.save(operation);
         account.setBalance(account.getBalance() + event.getAmount());
         accountRepository.save(account);
     }
@@ -76,25 +80,23 @@ public class AccountServiceHandler {
     {
         log.info("AccountDebitedEvent recieved!");
         Account account = accountRepository.findById(event.getId()).get();
-        Operation operation = new Operation();
-        operation.setOperationType(OperationType.DEBIT);
+        AccountTransaction operation = new AccountTransaction();
+        operation.setTransactionType(TransactionType.DEBIT);
         operation.setAmount(event.getAmount());
-        operation.setDate(new Date());  // not this date -- should put the date of the operation
+        operation.setTimestamp(new Date());  // not this date -- should put the date of the operation
         operation.setAccount(account);
-        operationRepository.save(operation);
+        transactionRepository.save(operation);
         account.setBalance(account.getBalance() - event.getAmount());
         accountRepository.save(account);
     }
 
     @QueryHandler
-    public List<Account> on(GetAllAccountsQuery query)
-    {
+    public List<Account> on(GetAllAccountsQuery query) {
         return accountRepository.findAll();
     }
 
     @QueryHandler
-    public Account on(GetAccountByIdQuery query)
-    {
+    public Account on(GetAccountByIdQuery query) {
         return accountRepository.findById(query.getId()).get();
     }
 
