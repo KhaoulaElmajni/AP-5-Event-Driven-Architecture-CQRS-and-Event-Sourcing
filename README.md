@@ -211,13 +211,19 @@ ___
 
 ___
 	
+## **Event Store**
+![](https://i.imgur.com/kHlBHRX.png)
+
+	
+___
+	
 * <strong style="color: dark ; opacity: 0.80">Enfin nous tenons à remercier le seul et unique, notre professeur Mr YOUSFI Mohamed *Docteur & professeur à l'ENSET MEDIA* pour son soutien et son encouragement envers nous, aussi pour nous avoir donné cette opportunité d'améliorer nos compétences et de connaître les nouvelles technologies comme celles qui nous avons travaillé.
 
 *voir également à propos* Mr [YOUSSFI Mohamed](https://www.linkedin.com/in/mohamed-youssfi-3ab0811b/)
 </strong>
 
 > Created by :[name=ELMAJNI KHAOULA]
-[time=Mon,2022,12,06][color=#EF0101]
+[time=Mon,2022,12,12][color=#EF0101]
 >*voir également à propos de moi* [ELMAJNI Khaoula](https://www.linkedin.com/in/khaoula-elmajni/)
 	
 	
