@@ -166,3 +166,58 @@ public class AccountTransaction {
 ```
 	
 # <span style="color:green">5.Simulation</span>
+
+## **Base de Données**
+![](https://i.imgur.com/hlJ1zu5.png)
+
+___
+## **Documentation Swagger**
+	
+![](https://i.imgur.com/wXbJhyK.png)
+
+
+## **Créer un compte**
+
+![](https://i.imgur.com/tfbFTmu.png)
+![](https://i.imgur.com/CDFFMEk.png)
+
+___
+	
+## **Créditer un comte**
+![](https://i.imgur.com/SgjeCaa.png)
+![](https://i.imgur.com/OdSXBSM.png)
+
+___
+	
+## **Débiter un compte**
+![](https://i.imgur.com/vf4sXg2.png)
+![](https://i.imgur.com/ELZ5hpB.png)
+
+___
+	
+## 	**Consulter un compte**
+![](https://i.imgur.com/xzmtP2H.png)
+
+___
+	
+## 	**Consulter tous les comptes**
+![](https://i.imgur.com/rjugBKo.png)
+
+___
+	
+## **Consulter les opérations d’un compte**
+
+![](https://i.imgur.com/mIBunNg.png)
+
+___
+	
+* <strong style="color: dark ; opacity: 0.80">Enfin nous tenons à remercier le seul et unique, notre professeur Mr YOUSFI Mohamed *Docteur & professeur à l'ENSET MEDIA* pour son soutien et son encouragement envers nous, aussi pour nous avoir donné cette opportunité d'améliorer nos compétences et de connaître les nouvelles technologies comme celles qui nous avons travaillé.
+
+*voir également à propos* Mr [YOUSSFI Mohamed](https://www.linkedin.com/in/mohamed-youssfi-3ab0811b/)
+</strong>
+
+> Created by :[name=ELMAJNI KHAOULA]
+[time=Mon,2022,12,06][color=#EF0101]
+>*voir également à propos de moi* [ELMAJNI Khaoula](https://www.linkedin.com/in/khaoula-elmajni/)
+	
+	
