@@ -26,16 +26,39 @@ public class AccountQueryController {
 
 
     @GetMapping("/allAccounts")
-    public CompletableFuture<List<Account>> accountList()
-    {
+    public CompletableFuture<List<Account>> accountList() {
         CompletableFuture<List<Account>> query = queryGateway.query(new GetAllAccountsQuery(), ResponseTypes.multipleInstancesOf(Account.class));
         return query;
     }
     @GetMapping("/{id}")
-    public Account getAccount(@PathVariable String id)
-    {
+    public Account getAccount(@PathVariable String id) {
         Account response = queryGateway.query(new GetAccountByIdQuery(id), ResponseTypes.instanceOf(Account.class)).join();
         return response;
     }
 
+    /*@GetMapping(path = "/accountOperations/{accountId}")
+    public List<AccountOperationResponseDTO> accountOperationList(@PathVariable String accountId){
+        return queryGateway.query(new
+                GetAccountOperationsQueryDTO(accountId),ResponseTypes.multipleInstancesOf(AccountOperationResponseDT
+                O.class)).join();
+    }
+
+
+    @GetMapping(value = "/{accountId}/watch"
+            ,produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    public Flux<AccountOperationResponseDTO> watch(@PathVariable String accountId){
+        @GetMapping(value = "/{accountId}/watch"
+                ,produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+        public Flux<BankAccountResponseDTO> watch(@PathVariable String accountId){
+            SubscriptionQueryResult<BankAccountResponseDTO,BankAccountResponseDTO> result=
+                    queryGateway.subscriptionQuery(
+                            new GetAccountQueryDTO(accountId),
+                            ResponseTypes.instanceOf(BankAccountResponseDTO.class),
+                            ResponseTypes.instanceOf(BankAccountResponseDTO.class)
+                    );
+            return result.initialResult().concatWith(result.updates());
+        // return result.initialResult().flatMapMany(Flux::fromIterable).concatWith(result.updates());
+        }
+    }
+*/
 }
